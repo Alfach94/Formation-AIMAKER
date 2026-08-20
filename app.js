@@ -93,14 +93,16 @@ function renderCriteria() {
   $("#weightTotal").textContent = `Pondération totale : ${totalWeight()}`;
   $("#criteriaGrid").innerHTML = criteria.map((criterion) => `
     <article class="criterion">
-      <div>
+      <div class="criterion-summary">
         <h3>${criterion.name}</h3>
         <p>${criterion.detail}</p>
       </div>
-      <label>Pondération
+      <ul class="scale" aria-label="Échelle de notation ${criterion.name}">
+        ${Object.entries(criterion.scale).sort((a,b) => b[0] - a[0]).map(([score, text]) => `<li><strong>${score}</strong> — ${text}</li>`).join("")}
+      </ul>
+      <label class="weight-field">Pondération
         <input type="number" min="0" value="${criterion.weight}" data-weight="${criterion.id}" />
       </label>
-      <ol class="scale" reversed>${Object.entries(criterion.scale).sort((a,b) => b[0] - a[0]).map(([score, text]) => `<li value="${score}"><strong>${score}</strong> — ${text}</li>`).join("")}</ol>
     </article>
   `).join("");
 }
@@ -177,6 +179,20 @@ function drawKiviat() {
   });
 }
 
+
+function switchTab(targetId) {
+  document.querySelectorAll(".tab").forEach((tab) => {
+    const isActive = tab.dataset.tabTarget === targetId;
+    tab.classList.toggle("active", isActive);
+    tab.setAttribute("aria-selected", String(isActive));
+  });
+  document.querySelectorAll(".tab-panel").forEach((panel) => {
+    panel.hidden = panel.id !== targetId;
+    panel.classList.toggle("active", panel.id === targetId);
+  });
+  if (targetId === "evaluationPanel") drawKiviat();
+}
+
 function render() { renderCriteria(); renderScenarios(); renderTable(); drawKiviat(); }
 
 document.addEventListener("input", (event) => {
@@ -197,6 +213,8 @@ document.addEventListener("change", (event) => {
 });
 
 document.addEventListener("click", (event) => {
+  const tabTarget = event.target.dataset.tabTarget;
+  if (tabTarget) switchTab(tabTarget);
   if (event.target.id === "addScenario") {
     scenarios.push({ id: crypto.randomUUID(), name: `Scénario ${scenarios.length + 1}`, scores: Object.fromEntries(criteria.map((c) => [c.id, 0])) });
     render();

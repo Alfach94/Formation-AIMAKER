@@ -20,49 +20,58 @@
     </header>
 
     <main>
-      <section class="panel" aria-labelledby="criteria-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Paramétrage</p>
-            <h2 id="criteria-title">Critères et pondérations</h2>
-          </div>
-          <p id="weightTotal" class="weight-total"></p>
-        </div>
-        <div id="criteriaGrid" class="criteria-grid"></div>
-      </section>
+      <nav class="tabs" aria-label="Sections de l'application">
+        <button class="tab active" type="button" data-tab-target="evaluationPanel" aria-controls="evaluationPanel" aria-selected="true">Évaluation</button>
+        <button class="tab" type="button" data-tab-target="settingsPanel" aria-controls="settingsPanel" aria-selected="false">Paramétrage</button>
+      </nav>
 
-      <section class="panel" aria-labelledby="scenarios-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Notation</p>
-            <h2 id="scenarios-title">Scénarios évalués</h2>
-          </div>
-        </div>
-        <div id="scenarioList" class="scenario-list"></div>
-      </section>
-
-      <section class="dashboard">
-        <div class="panel chart-panel">
+      <section id="evaluationPanel" class="tab-panel active" role="tabpanel">
+        <section class="panel" aria-labelledby="scenarios-title">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Visualisation</p>
-              <h2>Diagramme Kiviat</h2>
+              <p class="eyebrow">Notation</p>
+              <h2 id="scenarios-title">Scénarios évalués</h2>
             </div>
           </div>
-          <canvas id="kiviatChart" width="720" height="560" aria-label="Diagramme Kiviat de comparaison des scénarios"></canvas>
-        </div>
+          <div id="scenarioList" class="scenario-list"></div>
+        </section>
 
-        <div class="panel">
+        <section class="dashboard">
+          <div class="panel chart-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Visualisation</p>
+                <h2>Diagramme Kiviat</h2>
+              </div>
+            </div>
+            <canvas id="kiviatChart" width="720" height="560" aria-label="Diagramme Kiviat de comparaison des scénarios"></canvas>
+          </div>
+
+          <div class="panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Synthèse</p>
+                <h2>Tableau comparatif</h2>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table id="comparisonTable"></table>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="settingsPanel" class="tab-panel" role="tabpanel" hidden>
+        <section class="panel" aria-labelledby="criteria-title">
           <div class="section-heading">
             <div>
-              <p class="eyebrow">Synthèse</p>
-              <h2>Tableau comparatif</h2>
+              <p class="eyebrow">Paramétrage</p>
+              <h2 id="criteria-title">Critères et pondérations</h2>
             </div>
+            <p id="weightTotal" class="weight-total"></p>
           </div>
-          <div class="table-wrapper">
-            <table id="comparisonTable"></table>
-          </div>
-        </div>
+          <div id="criteriaGrid" class="criteria-grid"></div>
+        </section>
       </section>
     </main>
 
